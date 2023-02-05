@@ -1,44 +1,39 @@
-import { HomePage } from "./pages/home_page"
-import { ProductDetailPage } from "./pages/product_details_page"
-import { ProductListPage } from "./pages/product_list_page"
-import { CartPage } from "./pages/cart_page"
+import { Home } from "./functions/home"
+import { ProductList } from "./functions/product_list"
+import { ProductDetails } from "./functions/product_details"
+import { Cart } from "./functions/cart"
 
-const homePage = new HomePage()
-const productListPage = new ProductListPage()
-const productDetailsPage = new ProductDetailPage()
-const cartPage = new CartPage()
+const home = new Home()
+const productList = new ProductList()
+const productDetails = new ProductDetails()
+const cart = new Cart()
 
 describe('All Cart Tests', function() {
 
     beforeEach(function() {
-        homePage.loadHomePageUrl()
+        home.loadAppUrl()
     })
 
     it('Validate Amazon cart after clearing the added products', function(){
 
-        homePage.selectCategoryWithKeyword('Books')
-        homePage.enterSearchText('Automation')
+        home.selectCategoryAndSearchKeyword('Books', 'Automation')
+
+        productList.filterProductsByRatingAndLanguage('English')
+        let secondProductName = productList.selectProductByReturningTheProductName(2)
     
-        productListPage.filterProductsWithFourStarsAndAboveRating()
-        productListPage.selectLanguage('English')
-        let secondProductName = productListPage.getProductNameByIndex(2)
-        productListPage.clickProductByIndex(2)
-    
-        productDetailsPage.getProductTitleAndValidate(secondProductName)
+        productDetails.validateProductTitle(secondProductName)
         
     
-        let productListPrice = productDetailsPage.getProductUnitPrice()
-        productDetailsPage.selectProductQuantity(2)
-        productDetailsPage.clickAddToCart()
-        productDetailsPage.clickGoToCart()
+        let productListPrice = productDetails.returnProductUnitPrice()
+        productDetails.addProductToCartAndNavigateToCart(2)
         
-        expect(cartPage.getProductName()).contains.toString(secondProductName)
-        expect(cartPage.getProductQuantity()).contains.toString('2')
-        let cartTotalPrice = cartPage.getCartTotal()
+        expect(cart.returnProductName).contains.toString(secondProductName)
+        expect(cart.returnProductQuanity).contains.toString('2')
+        let cartTotalPrice = cart.returnCartGrandTotal()
         expect(cartTotalPrice, productListPrice*2, 'Total price mismatch in the cart')
     
-        cartPage.clearCart()
-        let cartTotalPriceAfterClear = cartPage.getCartTotal()
+        cart.deleteCart()
+        let cartTotalPriceAfterClear = cart.returnCartGrandTotal()
         expect(cartTotalPriceAfterClear, '0.00', 'Total price is not zero after clear cart')
     
     })

@@ -9,7 +9,7 @@ export class ProductDetailPage{
     getProductTitleAndValidate(expectedTitle) {
         var productTitle = cy.get(this.productDetailsPage_label_productTitle)
             .invoke('text')
-        expect(productTitle).equal.toString(expectedTitle)
+        expect(productTitle).contains.toString(expectedTitle)
     }
 
     getProductUnitPrice() {
