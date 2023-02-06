@@ -2,6 +2,7 @@ import { Home } from "./functions/home"
 import { ProductList } from "./functions/product_list"
 import { ProductDetails } from "./functions/product_details"
 import { Cart } from "./functions/cart"
+import deleteCartTestData from "../fixtures/cart_data/clear_cart_data.json"
 
 const home = new Home()
 const productList = new ProductList()
@@ -14,28 +15,32 @@ describe('All Cart Tests', function() {
         home.loadAppUrl()
     })
 
-    it('Validate Amazon cart after clearing the added products', function(){
+    it('Validate Amazon cart after clearing the added products', {tags: 'regression'} ,function(){
 
-        home.selectCategoryAndSearchKeyword('Books', 'Automation')
+        home.selectCategoryAndSearchKeyword(deleteCartTestData.category, deleteCartTestData.searchTerm)
 
-        productList.filterProductsByRatingAndLanguage('English')
-        let secondProductName = productList.selectProductByReturningTheProductName(2)
+        productList.filterProductsByRatingAndLanguage(deleteCartTestData.language)
+        let secondProductName = productList.selectProductByReturningTheProductName(deleteCartTestData.productIndex)
     
         productDetails.validateProductTitle(secondProductName)
         
     
         let productListPrice = productDetails.returnProductUnitPrice()
-        productDetails.addProductToCartAndNavigateToCart(2)
+        productDetails.addProductToCartAndNavigateToCart(deleteCartTestData.quantity)
         
         expect(cart.returnProductName).contains.toString(secondProductName)
-        expect(cart.returnProductQuanity).contains.toString('2')
+        expect(cart.returnProductQuanity).contains.toString(deleteCartTestData.quantity)
         let cartTotalPrice = cart.returnCartGrandTotal()
         expect(cartTotalPrice, productListPrice*2, 'Total price mismatch in the cart')
     
         cart.deleteCart()
         let cartTotalPriceAfterClear = cart.returnCartGrandTotal()
-        expect(cartTotalPriceAfterClear, '0.00', 'Total price is not zero after clear cart')
+        expect(cartTotalPriceAfterClear, deleteCartTestData.emptyCartPrice, 'Total price is not zero after clear cart')
     
+    })
+
+    afterEach (function() {
+        
     })
 })
 
