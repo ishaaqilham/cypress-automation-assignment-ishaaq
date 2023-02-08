@@ -3,9 +3,9 @@ export class HomePage{
     homePage_textbox_search = '#twotabsearchtextbox'
 
     loadHomePageUrl() {
-        cy.visit('https://www.amazon.com/')
+        cy.visit(Cypress.env('url'))
         cy.url()
-        .should('include', 'https://www.amazon.com/')
+        .should('include', Cypress.env('url'))
     }
 
     selectCategoryWithKeyword(categoryName) {
