@@ -20,21 +20,21 @@ describe('All Cart Tests', function() {
         home.selectCategoryAndSearchKeyword(deleteCartTestData.category, deleteCartTestData.searchTerm)
 
         productList.filterProductsByRatingAndLanguage(deleteCartTestData.language)
-        let secondProductName = productList.selectProductByReturningTheProductName(deleteCartTestData.productIndex)
+        var secondProductName = productList.selectProductByReturningTheProductName(deleteCartTestData.productIndex)
     
         productDetails.validateProductTitle(secondProductName)
         
     
-        let productListPrice = productDetails.returnProductUnitPrice()
+        var productListPrice = productDetails.returnProductUnitPrice()
         productDetails.addProductToCartAndNavigateToCart(deleteCartTestData.quantity)
         
         expect(cart.returnProductName).contains.toString(secondProductName)
         expect(cart.returnProductQuanity).contains.toString(deleteCartTestData.quantity)
-        let cartTotalPrice = cart.returnCartGrandTotal()
+        var cartTotalPrice = cart.returnCartGrandTotal()
         expect(cartTotalPrice, productListPrice*2, 'Total price mismatch in the cart')
     
         cart.deleteCart()
-        let cartTotalPriceAfterClear = cart.returnCartGrandTotal()
+        var cartTotalPriceAfterClear = cart.returnCartGrandTotal()
         expect(cartTotalPriceAfterClear, deleteCartTestData.emptyCartPrice, 'Total price is not zero after clear cart')
     
     })

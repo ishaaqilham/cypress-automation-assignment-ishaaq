@@ -1,6 +1,6 @@
 export class ProductDetailPage{
     productDetailsPage_label_productTitle = '#productTitle'
-    productDetailsPage_label_product_unitPrice = '.a-column > .a-price > [aria-hidden="true"]'
+    productDetailsPage_label_product_unitPrice = '#price'
     productDetailsPage_dropdown_quantity = '#a-autoid-0-announce'
     productDetailsPage_option_quantity = '#quantity_1'
     productDetailsPage_button_AddToCart = '#add-to-cart-button'
